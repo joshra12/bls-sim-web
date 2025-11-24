@@ -1,13 +1,15 @@
 // script.js
 
 let currentCase = null;
-let currentStepKey = "start";
+let currentStepKey = "sceneDispatch";
+let score = 0;
 
 const caseListView = document.getElementById("case-list-view");
 const casePlayerView = document.getElementById("case-player-view");
 
 const caseListDiv = document.getElementById("case-list");
 const caseTitleEl = document.getElementById("case-title");
+const scoreDisplayEl = document.getElementById("score-display");
 const stepTextEl = document.getElementById("step-text");
 const vitalsBoxEl = document.getElementById("vitals-box");
 const optionsBoxEl = document.getElementById("options-box");
@@ -39,7 +41,9 @@ function renderCaseList() {
 // Open a case
 function openCase(caseId) {
   currentCase = CASES.find((c) => c.id === caseId);
-  currentStepKey = "start";
+  currentStepKey = "sceneDispatch";
+  score = 0;
+  updateScoreDisplay();
   showCasePlayer();
 }
 
@@ -54,12 +58,29 @@ function showCasePlayer() {
   casePlayerView.style.display = "block";
 }
 
+// Update score display
+function updateScoreDisplay() {
+  if (!currentCase) {
+    scoreDisplayEl.textContent = "";
+    return;
+  }
+  scoreDisplayEl.textContent = `Score: ${score}`;
+}
+
 // Render the current step
 function renderStep() {
   const step = currentCase.steps[currentStepKey];
 
-  // Step text
+  // Base text
   stepTextEl.textContent = step.text;
+
+  // If it's an end step, append the final score
+  if (!step.options || step.options.length === 0) {
+    const scorePara = document.createElement("p");
+    scorePara.textContent = `Final score for this case: ${score}`;
+    stepTextEl.appendChild(document.createElement("br"));
+    stepTextEl.appendChild(scorePara);
+  }
 
   // Vitals
   vitalsBoxEl.innerHTML = "";
@@ -77,18 +98,23 @@ function renderStep() {
 
   // Options
   optionsBoxEl.innerHTML = "";
-  step.options.forEach((opt) => {
+  (step.options || []).forEach((opt) => {
     const btn = document.createElement("button");
     btn.className = "option-button";
     btn.textContent = opt.label;
     btn.onclick = () => {
+      if (typeof opt.scoreChange === "number") {
+        score += opt.scoreChange;
+        if (score < 0) score = 0; // don’t go negative
+        updateScoreDisplay();
+      }
       currentStepKey = opt.next;
       renderStep();
     };
     optionsBoxEl.appendChild(btn);
   });
 
-  // If it's an end step (no options)
+  // If no options, show "Back to Case List"
   if (!step.options || step.options.length === 0) {
     const endBtn = document.createElement("button");
     endBtn.id = "end-button";
@@ -102,13 +128,18 @@ function renderStep() {
 // Go back to list
 function goBackToList() {
   currentCase = null;
-  currentStepKey = "start";
+  currentStepKey = "sceneDispatch";
+  score = 0;
+  updateScoreDisplay();
   casePlayerView.style.display = "none";
   caseListView.style.display = "block";
 }
 
 // Back button in header
 backButton.addEventListener("click", goBackToList);
+
+// Initialize
+renderCaseList();
 
 // Initialize
 renderCaseList();
