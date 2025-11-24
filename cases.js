@@ -2,13 +2,101 @@
 
 const CASES = [
   {
-    id: "chestPain1",
-    title: "Chest Pain – 58 y/o M",
+    id: "chestPainFlow1",
+    title: "Chest Pain – Full BLS Assessment Flow",
     category: "Medical",
-    difficulty: "Easy",
+    difficulty: "Medium",
     steps: {
-      start: {
-        text: "You arrive to a 58 y/o male with chest pain in a dorm room. He looks pale and diaphoretic, sitting upright on the edge of the bed.",
+      sceneDispatch: {
+        text:
+          "You are dispatched for a 58 y/o male with chest pain in a dorm. As you arrive on scene, what is your FIRST priority?",
+        vitals: null,
+        options: [
+          {
+            label: "Ensure scene safety and don appropriate PPE",
+            next: "sceneSizeUp",
+            scoreChange: 1,
+          },
+          {
+            label: "Grab the monitor and rush directly to the patient",
+            next: "sceneSafetyRemind",
+            scoreChange: -1,
+          },
+        ],
+      },
+
+      sceneSafetyRemind: {
+        text:
+          "Rushing in without confirming scene safety puts you and your crew at risk. Remember: scene safety and PPE come first.",
+        vitals: null,
+        options: [
+          {
+            label: "Reassess scene safety and PPE, then proceed inside",
+            next: "sceneSizeUp",
+            scoreChange: 1,
+          },
+        ],
+      },
+
+      sceneSizeUp: {
+        text:
+          "The scene appears safe. You and your partner are in gloves and eye protection. There is one patient sitting on the edge of the bed, clutching his chest. No obvious hazards. What do you do as part of your scene size-up?",
+        vitals: null,
+        options: [
+          {
+            label: "Confirm NOI, # of patients, and consider additional resources/ALS",
+            next: "generalImpression",
+            scoreChange: 1,
+          },
+          {
+            label: "Skip size-up and go straight to a full physical exam",
+            next: "generalImpression",
+            scoreChange: -1,
+          },
+        ],
+      },
+
+      generalImpression: {
+        text:
+          "You note: one patient, medical NOI (chest pain), no obvious hazards. ALS is available. The patient appears pale and anxious. What’s your next step in the primary assessment?",
+        vitals: null,
+        options: [
+          {
+            label:
+              "Form a general impression, consider need for spinal precautions, and identify the chief complaint",
+            next: "locAssessment",
+            scoreChange: 1,
+          },
+          {
+            label: "Immediately obtain a blood pressure",
+            next: "locAssessment",
+            scoreChange: -1,
+          },
+        ],
+      },
+
+      locAssessment: {
+        text:
+          "The patient states, “My chest really hurts.” He appears to be protecting his own airway and is sitting upright. You suspect no trauma and do not take spinal precautions. You should now assess level of consciousness. How do you do this?",
+        vitals: null,
+        options: [
+          {
+            label:
+              "Use AVPU and orientation questions (person, place, time, event)",
+            next: "abcd",
+            scoreChange: 1,
+          },
+          {
+            label: "Assume he’s alert because he’s talking and skip LOC",
+            next: "abcd",
+            scoreChange: -1,
+          },
+        ],
+      },
+
+      abcd: {
+        text:
+          "He is alert and oriented x4. Moving into ABC(D): Airway is patent. He is speaking in full sentences but appears mildly short of breath.",
         vitals: {
           hr: 112,
           rr: 22,
@@ -16,21 +104,23 @@ const CASES = [
           spo2: "92% RA",
         },
         options: [
-          { label: "Perform primary assessment (ABCs)", next: "primary" },
-          { label: "Give aspirin immediately", next: "tooSoonAspirin" },
+          {
+            label:
+              "Assess breathing (rate, quality, lung sounds) and circulation (pulse, skin, major bleeding)",
+            next: "rapidScanIntro",
+            scoreChange: 1,
+          },
+          {
+            label: "Skip to SAMPLE history since he can talk",
+            next: "rapidScanIntro",
+            scoreChange: -1,
+          },
         ],
       },
-      tooSoonAspirin: {
+
+      rapidScanIntro: {
         text:
-          "At BLS level, you should complete a primary assessment and check for contraindications before giving medications.",
-        vitals: null,
-        options: [
-          { label: "Go back and perform primary assessment", next: "primary" },
-        ],
-      },
-      primary: {
-        text:
-          "Airway is patent. Breathing is labored at 22/min, lungs clear. Radial pulse is weak and rapid, skin cool and pale. Patient rates pain 8/10, central chest pressure.",
+          "Breathing is labored at 22/min, lungs clear bilaterally. Radial pulse is rapid and weak, skin cool and pale. No major external bleeding. You move into a rapid scan to look for immediate life threats.",
         vitals: {
           hr: 112,
           rr: 22,
@@ -39,111 +129,112 @@ const CASES = [
         },
         options: [
           {
-            label: "Apply O2 via nasal cannula at 2 L/min",
-            next: "lowO2",
+            label:
+              "Perform a quick head-to-toe rapid scan and then decide on transport priority",
+            next: "transportDecisionPrimary",
+            scoreChange: 1,
           },
           {
-            label: "Apply O2 via NRB at 15 L/min",
-            next: "goodO2",
-          },
-          {
-            label: "Ignore O2 and start moving to stretcher",
-            next: "noO2",
+            label: "Skip rapid scan because it’s a medical call",
+            next: "transportDecisionPrimary",
+            scoreChange: -1,
           },
         ],
       },
-      lowO2: {
+
+      transportDecisionPrimary: {
         text:
-          "For significant chest pain and poor perfusion, low-flow NC is not ideal. The patient remains short of breath.",
+          "Rapid scan reveals no trauma or obvious injuries. Based on the primary assessment, he appears potentially unstable (borderline BP, chest pain, cool/pale skin). What is the BEST BLS decision now?",
         vitals: {
-          hr: 115,
-          rr: 24,
-          bp: "94/60",
-          spo2: "93% NC 2 L",
+          hr: 112,
+          rr: 22,
+          bp: "96/62",
+          spo2: "92% RA",
         },
         options: [
           {
-            label: "Increase to NRB at 15 L/min",
-            next: "goodO2",
+            label:
+              "Request ALS, begin preparations for early transport, and continue assessment en route",
+            next: "historyIntro",
+            scoreChange: 1,
+          },
+          {
+            label:
+              "Decide he is stable and plan to stay on scene for an extended assessment",
+            next: "historyIntro",
+            scoreChange: -1,
           },
         ],
       },
-      goodO2: {
+
+      historyIntro: {
         text:
-          "You place the patient on high-flow O2 via NRB. He reports slightly easier breathing, pain now 7/10.",
-        vitals: {
-          hr: 108,
-          rr: 20,
-          bp: "98/64",
-          spo2: "96% NRB",
-        },
-        options: [
-          {
-            label: "Request ALS and prepare for rapid transport",
-            next: "goodPlan",
-          },
-          {
-            label: "Decide to stay on scene for a long history",
-            next: "badPlan",
-          },
-        ],
-      },
-      noO2: {
-        text:
-          "You delay oxygen and focus on movement. The patient becomes more dyspneic and lightheaded.",
-        vitals: {
-          hr: 118,
-          rr: 26,
-          bp: "90/58",
-          spo2: "90% RA",
-        },
-        options: [
-          {
-            label: "Stop and apply NRB at 15 L/min and reassess",
-            next: "goodO2",
-          },
-        ],
-      },
-      goodPlan: {
-        text:
-          "You appropriately request ALS, continue monitoring ABCs, and prepare for rapid transport to an appropriate facility.",
-        vitals: {
-          hr: 104,
-          rr: 18,
-          bp: "102/66",
-          spo2: "97% NRB",
-        },
-        options: [
-          {
-            label: "End case",
-            next: "end",
-          },
-        ],
-      },
-      badPlan: {
-        text:
-          "Staying on scene too long with an unstable patient increases risk. Continuing scene time may worsen outcome.",
-        vitals: {
-          hr: 120,
-          rr: 24,
-          bp: "88/54",
-          spo2: "94% NRB",
-        },
-        options: [
-          {
-            label: "Realize your error and prepare for rapid transport",
-            next: "goodPlan",
-          },
-        ],
-      },
-      end: {
-        text:
-          "End of case. Key BLS priorities: early primary assessment, appropriate oxygen, rapid ALS request, and transport.",
+          "You’ve completed your primary assessment and identified no immediate life threats requiring CPR or airway maneuvers. You begin history taking focused on the chief complaint. What framework do you use FIRST for the chest pain?",
         vitals: null,
-        options: [],
+        options: [
+          {
+            label: "OPQRST for history of present illness",
+            next: "opqrstDone",
+            scoreChange: 1,
+          },
+          {
+            label: "Jump straight to SAMPLE and skip OPQRST",
+            next: "opqrstDone",
+            scoreChange: -1,
+          },
+        ],
       },
-    },
-  },
+
+      opqrstDone: {
+        text:
+          "You obtain an OPQRST history:\n\nOnset: Gradual while walking to class.\nProvocation: Worse with exertion, better at rest.\nQuality: Pressure.\nRadiation: To left arm.\nSeverity: 8/10.\nTime: Started 20 minutes ago.\n\nWhat do you do next in your history?",
+        vitals: null,
+        options: [
+          {
+            label: "Complete a SAMPLE history",
+            next: "sampleDone",
+            scoreChange: 1,
+          },
+          {
+            label: "Skip SAMPLE and move straight to transport",
+            next: "sampleDone",
+            scoreChange: -1,
+          },
+        ],
+      },
+
+      sampleDone: {
+        text:
+          "SAMPLE:\nS: Chest pressure, mild SOB, nausea.\nA: NKDA.\nM: Daily aspirin and a beta-blocker.\nP: HTN, high cholesterol, prior MI 3 years ago.\nL: Ate breakfast 2 hours ago.\nE: Was walking across campus when pain started.\n\nYou’re ready for your secondary assessment. What should you obtain as BASELINE VITALS at this point?",
+        vitals: null,
+        options: [
+          {
+            label: "Respiratory rate, pulse, and blood pressure",
+            next: "baselineVitalsGood",
+            scoreChange: 1,
+          },
+          {
+            label: "Only blood pressure, since that’s most important",
+            next: "baselineVitalsIncomplete",
+            scoreChange: -1,
+          },
+          {
+            label:
+              "Skip vitals and load immediately without any baseline measurements",
+            next: "baselineVitalsSkip",
+            scoreChange: -1,
+          },
+        ],
+      },
+
+      baselineVitalsGood: {
+        text:
+          "You obtain baseline vitals:\nRR 22 (labored), HR 112 (rapid, weak), BP 96/62, SpO₂ 92% on room air. These confirm borderline perfusion and respiratory distress.\n\nAs part of your focused secondary assessment for this cardiac patient, what is the MOST appropriate next step at the BLS level?",
+        vitals: {
+          hr: 112,
+          rr: 22,
+          bp: "96/62",
+
 
   // Add more cases here
 ];
