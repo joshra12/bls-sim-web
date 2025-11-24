@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>BLS Sim Cases</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <!-- Case list view -->
+      <div id="case-list-view">
+        <h1>BLS Sim Cases</h1>
+        <div id="case-list"></div>
+      </div>
+
+      <!-- Case player view -->
+      <div id="case-player-view" style="display: none">
+        <div class="header">
+          <h2 id="case-title"></h2>
+          <button id="back-button">Back</button>
+        </div>
+        <div id="step-text"></div>
+        <div id="vitals-box"></div>
+        <div id="options-box"></div>
+      </div>
+    </div>
+
+    <script src="cases.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
