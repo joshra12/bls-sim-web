@@ -140,6 +140,3 @@ backButton.addEventListener("click", goBackToList);
 
 // Initialize
 renderCaseList();
-
-// Initialize
-renderCaseList();
