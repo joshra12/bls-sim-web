@@ -234,7 +234,108 @@ const CASES = [
           hr: 112,
           rr: 22,
           bp: "96/62",
+          spo2: "92% RA",
+        },
+        options: [
+          {
+            label:
+              "Apply high-flow O₂ via NRB, continue focused cardiovascular/respiratory exam, and prepare for transport",
+            next: "secondaryAssessmentGood",
+            scoreChange: 1,
+          },
+          {
+            label: "Perform a full head-to-toe trauma exam",
+            next: "secondaryAssessmentGood",
+            scoreChange: -1,
+          },
+        ],
+      },
 
+      baselineVitalsIncomplete: {
+        text:
+          "Only obtaining blood pressure leaves you without a full picture of perfusion and respiratory status. You correct this and get full baseline vitals.",
+        vitals: {
+          hr: 112,
+          rr: 22,
+          bp: "96/62",
+          spo2: "92% RA",
+        },
+        options: [
+          {
+            label:
+              "Obtain RR and pulse as well, then proceed with focused cardiovascular/respiratory exam and O₂",
+            next: "secondaryAssessmentGood",
+            scoreChange: 1,
+          },
+        ],
+      },
 
-  // Add more cases here
+      baselineVitalsSkip: {
+        text:
+          "Skipping baseline vitals removes an important comparison for future reassessments and can affect patient care and documentation. You realize this and quickly obtain them before moving.",
+        vitals: {
+          hr: 112,
+          rr: 22,
+          bp: "96/62",
+          spo2: "92% RA",
+        },
+        options: [
+          {
+            label:
+              "Get RR, pulse, and BP, then begin focused cardiovascular/respiratory exam and O₂",
+            next: "secondaryAssessmentGood",
+            scoreChange: 1,
+          },
+        ],
+      },
+
+      secondaryAssessmentGood: {
+        text:
+          "On focused cardiovascular and respiratory exam: lungs are clear, no JVD, no pedal edema. Pain persists at 7/10. You place the patient on high-flow O₂ via NRB at 15 L/min. ALS has been requested and will intercept en route.\n\nAs you begin transport, how often should you plan to reassess this patient?",
+        vitals: {
+          hr: 108,
+          rr: 20,
+          bp: "100/64",
+          spo2: "96% NRB",
+        },
+        options: [
+          {
+            label: "Every 5 minutes because he is potentially unstable",
+            next: "reassessmentGood",
+            scoreChange: 1,
+          },
+          {
+            label: "Every 15 minutes because he is sitting up and talking",
+            next: "reassessmentGood",
+            scoreChange: -1,
+          },
+        ],
+      },
+
+      reassessmentGood: {
+        text:
+          "You reassess every 5 minutes: monitoring ABCs, checking vital signs again, reassessing the chief complaint, and evaluating your interventions.\n\nALS joins you in the ambulance, and the patient is transported to an appropriate cardiac receiving facility.",
+        vitals: {
+          hr: 104,
+          rr: 18,
+          bp: "104/68",
+          spo2: "97% NRB",
+        },
+        options: [
+          {
+            label: "End case and view score",
+            next: "end",
+            scoreChange: 1,
+          },
+        ],
+      },
+
+      end: {
+        text:
+          "End of case.\n\nThis call followed the BLS flow: scene size-up → primary assessment (GI, LOC, ABCD, rapid scan, transport decision) → history (OPQRST + SAMPLE) → secondary assessment (baseline vitals and focused exam) → reassessment with appropriate frequency.",
+        vitals: null,
+        options: [],
+      },
+    },
+  },
 ];
