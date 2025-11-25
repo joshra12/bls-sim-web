@@ -1,21 +1,38 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8" />
-  <title>BLS Skills Simulator</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>BLS Chest Pain Simulator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>BLS Chest Pain Simulator</h1>
 
-<body>
-  <h1>BLS Skills Simulator</h1>
+    <div id="scenario-box">
+      <h2>Scenario</h2>
+      <p>
+        You are dispatched for a 58-year-old male with chest pain in a dorm room.
+        On arrival you find him sitting on the edge of the bed, pale and anxious,
+        clutching the center of his chest.
+      </p>
+      <p>
+        Baseline presentation (before any treatment):<br />
+        HR 112 (rapid, weak) • RR 22 (labored) • BP 96/62 • SpO₂ 92% on room air<br />
+        HX: Hypertension, high cholesterol, prior MI 3 years ago. Takes daily aspirin
+        and a beta-blocker.
+      </p>
+    </div>
 
-  <div id="categories"></div>
+    <div id="layout">
+      <div id="categories"></div>
 
-  <div id="result-box">
-    <em>Select an action to see the result.</em>
-  </div>
+      <div id="result-box">
+        <em>Select an action to see the result for this patient.</em>
+      </div>
+    </div>
 
-  <script src="actions.js"></script>
-  <script src="script.js"></script>
-</body>
+    <script src="actions.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>
