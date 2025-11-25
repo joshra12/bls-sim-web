@@ -1,33 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>BLS Sim Cases</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div id="app">
-      <!-- Case list view -->
-      <div id="case-list-view">
-        <h1>BLS Sim Cases</h1>
-        <div id="case-list"></div>
-      </div>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>BLS Skills Simulator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 
-      <!-- Case player view -->
-      <div id="case-player-view" style="display: none">
-        <div class="header">
-          <h2 id="case-title"></h2>
-          <span id="score-display"></span>
-          <button id="back-button">Back</button>
-        </div>
-        <div id="step-text"></div>
-        <div id="vitals-box"></div>
-        <div id="options-box"></div>
-      </div>
-    </div>
+<body>
+  <h1>BLS Skills Simulator</h1>
 
-    <script src="cases.js"></script>
-    <script src="script.js"></script>
-  </body>
+  <div id="categories"></div>
+
+  <div id="result-box">
+    <em>Select an action to see the result.</em>
+  </div>
+
+  <script src="actions.js"></script>
+  <script src="script.js"></script>
+</body>
 </html>
