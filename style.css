@@ -1,41 +1,79 @@
 body {
-  font-family: system-ui, sans-serif;
-  margin: 20px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  margin: 0;
+  padding: 16px;
+  background: #f5f5f5;
 }
 
 h1 {
-  font-size: 28px;
-  margin-bottom: 20px;
+  font-size: 26px;
+  margin-bottom: 16px;
+}
+
+#scenario-box {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  margin-bottom: 16px;
+}
+
+#layout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (min-width: 800px) {
+  #layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+#categories {
+  flex: 1;
+}
+
+#result-box {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  padding: 12px 16px;
+  min-height: 150px;
 }
 
 .category-section {
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .category-section h2 {
   margin: 0;
   cursor: pointer;
-  background: #eee;
-  padding: 10px;
+  background: #e9e9e9;
+  padding: 8px 10px;
   border-radius: 6px;
+  font-size: 18px;
+}
+
+.action-list {
+  margin-top: 4px;
 }
 
 .action-button {
   display: block;
   width: 100%;
   text-align: left;
-  padding: 10px;
-  background: white;
+  padding: 8px 10px;
+  margin-top: 4px;
+  background: #ffffff;
   border: 1px solid #ccc;
   border-radius: 6px;
-  margin-top: 6px;
+  font-size: 14px;
   cursor: pointer;
 }
 
-#result-box {
-  margin-top: 30px;
-  padding: 15px;
-  border-radius: 8px;
-  background: #f9f9f9;
-  border: 1px solid #ccc;
+.action-button:hover {
+  background: #f0f0f0;
 }
